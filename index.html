@@ -1,9 +1,47 @@
 <!doctype html>
 <html>
 	<head>
+		<style>
+			* {
+				box-sizing: border-box;
+				font-size: 20px;
+			}
+		</style>
 	</head>
 
-	<body>
-		<iframe src="https://surveys.emfluence.com/D417415C-278F-45D7-B2DB-9AF7FFDC3F46" style="width: 100%; min-height: 600px;"></iframe>
+	<body style="display: grid; grid-template-rows: auto 1fr; height: 100vh; margin: 0;">
+		<div style="display: grid; grid-template-columns: 1fr auto; grid-gap: 10px; padding: 10px; background: green;">
+			<input class="js-input-url" placeholder="enter iframe url">
+			<button type="button" class="js-btn-load" style="min-width: 200px; background: yellow;">Go!</button>
+		</div>
+
+		<iframe src="about:blank" style="width: 100%; height: 100%;"></iframe>
 	</body>
+
+	<script>
+		(function() {
+			var loadButtonEl = document.querySelector(".js-btn-load");
+			var iframeEl = document.querySelector("iframe");
+			var urlInputEl = document.querySelector(".js-input-url");
+
+			loadButtonEl.onclick = function() {
+				setIframeSrc(urlInputEl.value);
+			};
+
+			urlInputEl.addEventListener("keyup", function(e) {
+				e.keyCode == 13 && setIframeSrc(urlInputEl.value);
+			});
+
+			var lsSrc = localStorage.getItem("src");
+			if (Boolean(lsSrc)) {
+				urlInputEl.value = lsSrc;
+				setIframeSrc(lsSrc);
+			}
+
+			function setIframeSrc(src) {
+				iframeEl.src = src;
+				localStorage.setItem("src", src);
+			}
+		})();
+	</script>
 </html>
